@@ -94,6 +94,7 @@
                 <th>ID Number</th>
                 <th>Name</th>
                 <th>Age</th>
+                <th>Gender</th>
                 <th>Type</th>
                 <th>Phone Number</th>
                 <th>Payment Type</th>
@@ -106,9 +107,28 @@
                 <td contenteditable="true"></td>
                 <td contenteditable="true"></td>
                 <td contenteditable="true"></td>
+                <td>
+                    <select>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="New Entry">New Entry</option>
+                        <option value="Revisit">Revisit</option>
+                        <option value="Only Enter">Only Enter</option>
+                    </select>
+                </td>
                 <td contenteditable="true"></td>
-                <td contenteditable="true"></td>
-                <td contenteditable="true"></td>
+                <td>
+                    <select>
+                        <option value="Online">Online</option>
+                        <option value="Cash">Cash</option>
+                        <option value="None">None</option>
+                    </select>
+                </td>
                 <td contenteditable="true" class="amount">0</td>
             </tr>
         </tbody>
@@ -153,12 +173,33 @@
             const newRow = table.insertRow();
 
             // Add cells to the new row
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 9; i++) {
                 const newCell = newRow.insertCell(i);
                 if (i === 0) {
                     // Serial number
                     newCell.textContent = table.rows.length;
+                } else if (i === 4) {
+                    // Gender dropdown
+                    newCell.innerHTML = `<select>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>`;
+                } else if (i === 5) {
+                    // Type dropdown
+                    newCell.innerHTML = `<select>
+                        <option value="New Entry">New Entry</option>
+                        <option value="Revisit">Revisit</option>
+                        <option value="Only Enter">Only Enter</option>
+                    </select>`;
                 } else if (i === 7) {
+                    // Payment Type dropdown
+                    newCell.innerHTML = `<select>
+                        <option value="Online">Online</option>
+                        <option value="Cash">Cash</option>
+                        <option value="None">None</option>
+                    </select>`;
+                } else if (i === 8) {
                     // Amount with class for totaling
                     newCell.classList.add("amount");
                     newCell.contentEditable = "true";
@@ -196,9 +237,11 @@
             document.querySelectorAll("#patientTable tbody tr").forEach((row, index) => {
                 const name = row.cells[2].textContent;
                 const age = row.cells[3].textContent;
-                const amount = parseFloat(row.cells[7].textContent) || 0;
+                const gender = row.cells[4].querySelector("select").value;
+                const type = row.cells[5].querySelector("select").value;
+                const amount = parseFloat(row.cells[8].textContent) || 0;
                 
-                message += `Patient ${index + 1}:\nName: ${name}\nAge: ${age}\nAmount: ${amount}\n\n`;
+                message += `Patient ${index + 1}:\nName: ${name}\nAge: ${age}\nGender: ${gender}\nType: ${type}\nAmount: ${amount}\n\n`;
                 
                 totalAmount += amount;
                 patientCount++;
