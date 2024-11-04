@@ -82,6 +82,27 @@
                 display: None;
             }
         }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 6px;
+            }
+            .btn-container, .row-btn-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-container button, .row-btn-container button {
+                width: 100%;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
