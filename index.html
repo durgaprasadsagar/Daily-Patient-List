@@ -63,6 +63,16 @@
         .btn-container button:hover, .row-btn-container button:hover {
             background-color: #45a049;
         }
+        .totals {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        @media print {
+            .btn-container {
+                display: block;
+            }
+        }
     </style>
 </head>
 <body>
@@ -116,20 +126,25 @@
         <button onclick="shareOnWhatsApp()">Share on WhatsApp</button>
     </div>
 
+    <div class="totals">
+        <p id="totalAmountDisplay">Total Amount: </p>
+        <p id="totalPatientsDisplay">Total Patient Count: </p>
+    </div>
+
     <script>
-        // Calculate total amount
+        // Calculate and display total amount
         function calculateTotal() {
             let total = 0;
             document.querySelectorAll(".amount").forEach(cell => {
                 total += parseFloat(cell.textContent) || 0;
             });
-            alert("Total Amount: " + total);
+            document.getElementById("totalAmountDisplay").textContent = "Total Amount: " + total;
         }
 
-        // Get total patient count
+        // Calculate and display total patient count
         function getPatientCount() {
             const rowCount = document.getElementById("patientTable").rows.length - 1;
-            alert("Total Patient Count: " + rowCount);
+            document.getElementById("totalPatientsDisplay").textContent = "Total Patient Count: " + rowCount;
         }
 
         // Add new row to table
