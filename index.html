@@ -38,12 +38,12 @@
         th {
             background-color: #f2f2f2;
         }
-        .btn-container {
+        .btn-container, .row-btn-container {
             display: flex;
             justify-content: space-between;
             margin-top: 20px;
         }
-        .btn-container button {
+        .btn-container button, .row-btn-container button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
@@ -81,19 +81,13 @@
                 <td>Cash</td>
                 <td class="amount">500</td>
             </tr>
-            <tr>
-                <td>2</td>
-                <td>002</td>
-                <td>Jane Smith</td>
-                <td>29</td>
-                <td>Inpatient</td>
-                <td>+1234567890</td>
-                <td>Card</td>
-                <td class="amount">750</td>
-            </tr>
-            <!-- Additional rows can be added here -->
         </tbody>
     </table>
+
+    <div class="row-btn-container">
+        <button onclick="addRow()">Add Row</button>
+        <button onclick="removeRow()">Remove Row</button>
+    </div>
 
     <div class="btn-container">
         <button onclick="calculateTotal()">Total Amount</button>
@@ -119,6 +113,40 @@
         function getPatientCount() {
             const rowCount = document.getElementById("patientTable").rows.length - 1;
             alert("Total Patient Count: " + rowCount);
+        }
+
+        // Add new row to table
+        function addRow() {
+            const table = document.getElementById("patientTable").getElementsByTagName("tbody")[0];
+            const newRow = table.insertRow();
+
+            // Add cells to the new row
+            for (let i = 0; i < 8; i++) {
+                const newCell = newRow.insertCell(i);
+                if (i === 0) {
+                    // Serial number
+                    newCell.textContent = table.rows.length;
+                } else if (i === 7) {
+                    // Amount with class for totaling
+                    newCell.classList.add("amount");
+                    newCell.contentEditable = "true";
+                    newCell.textContent = "0";
+                } else {
+                    // Other cells as editable
+                    newCell.contentEditable = "true";
+                    newCell.textContent = "";
+                }
+            }
+        }
+
+        // Remove the last row from table
+        function removeRow() {
+            const table = document.getElementById("patientTable").getElementsByTagName("tbody")[0];
+            if (table.rows.length > 1) {
+                table.deleteRow(table.rows.length - 1);
+            } else {
+                alert("No rows to remove!");
+            }
         }
 
         // Share details on WhatsApp
