@@ -70,12 +70,96 @@
         }
         @media print {
             .btn-container {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Patient List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            white-space: nowrap; /* Ensures single-line layout */
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        td[contenteditable="true"] {
+            background-color: #e8f0fe;
+        }
+        .btn-container, .row-btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .btn-container button, .row-btn-container button {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-container button:hover, .row-btn-container button:hover {
+            background-color: #45a049;
+        }
+        .totals {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-size: 12px;
+                margin: 0;
+            }
+            th, td {
+                padding: 4px;
+                font-size: 10px;
+                white-space: nowrap;
+            }
+            .btn-container, .row-btn-container {
                 display: block;
+                text-align: center;
+                margin: 10px 0;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Your HTML structure remains the same here, including header, table, buttons, and JavaScript code -->
     <div class="header">
         <div>
             <label for="contactNumber">Phone:</label>
