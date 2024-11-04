@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Patient List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header .phone {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .header .date {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .btn-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="phone" id="contactNumber">Phone: +1234567890</div>
+        <div class="date" id="currentDate">Date: <span id="dateDisplay"></span></div>
+    </div>
+
+    <table id="patientTable">
+        <thead>
+            <tr>
+                <th>Serial No</th>
+                <th>ID Number</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Type</th>
+                <th>Phone Number</th>
+                <th>Payment Type</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Sample Row -->
+            <tr>
+                <td>1</td>
+                <td>001</td>
+                <td>John Doe</td>
+                <td>34</td>
+                <td>Outpatient</td>
+                <td>+9876543210</td>
+                <td>Cash</td>
+                <td class="amount">500</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>002</td>
+                <td>Jane Smith</td>
+                <td>29</td>
+                <td>Inpatient</td>
+                <td>+1234567890</td>
+                <td>Card</td>
+                <td class="amount">750</td>
+            </tr>
+            <!-- Additional rows can be added here -->
+        </tbody>
+    </table>
+
+    <div class="btn-container">
+        <button onclick="calculateTotal()">Total Amount</button>
+        <button onclick="getPatientCount()">Total Patient List</button>
+        <button onclick="window.print()">Print</button>
+        <button onclick="shareOnWhatsApp()">Share on WhatsApp</button>
+    </div>
+
+    <script>
+        // Display current date
+        document.getElementById("dateDisplay").textContent = new Date().toLocaleDateString();
+
+        // Calculate total amount
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll(".amount").forEach(cell => {
+                total += parseFloat(cell.textContent) || 0;
+            });
+            alert("Total Amount: " + total);
+        }
+
+        // Get total patient count
+        function getPatientCount() {
+            const rowCount = document.getElementById("patientTable").rows.length - 1;
+            alert("Total Patient Count: " + rowCount);
+        }
+
+        // Share details on WhatsApp
+        function shareOnWhatsApp() {
+            const phone = document.getElementById("contactNumber").textContent.split(" ")[1];
+            let message = "Patient List:\n\n";
+            let totalAmount = 0;
+            let patientCount = 0;
+
+            document.querySelectorAll("#patientTable tbody tr").forEach((row, index) => {
+                const name = row.cells[2].textContent;
+                const age = row.cells[3].textContent;
+                const amount = parseFloat(row.cells[7].textContent) || 0;
+                
+                message += `Patient ${index + 1}:\nName: ${name}\nAge: ${age}\nAmount: ${amount}\n\n`;
+                
+                totalAmount += amount;
+                patientCount++;
+            });
+
+            message += `Total Patients: ${patientCount}\nTotal Amount: ${totalAmount}`;
+
+            // WhatsApp URL encoding
+            const whatsappURL = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, "_blank");
+        }
+    </script>
+</body>
+</html>
