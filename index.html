@@ -8,6 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f9f9f9;
         }
         .header {
             display: flex;
@@ -15,28 +16,34 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        .header .phone {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .header .date {
-            font-size: 18px;
-            font-weight: bold;
+        .header input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-        }
-        table, th, td {
-            border: 1px solid #000;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
+            border: 1px solid #ddd;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #4CAF50;
+            color: white;
+        }
+        td {
+            font-size: 16px;
+            background-color: #f8f8f8;
+        }
+        td[contenteditable="true"] {
+            background-color: #e8f0fe;
         }
         .btn-container, .row-btn-container {
             display: flex;
@@ -46,14 +53,28 @@
         .btn-container button, .row-btn-container button {
             padding: 10px 20px;
             font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-container button:hover, .row-btn-container button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="phone" id="contactNumber">Phone: +1234567890</div>
-        <div class="date" id="currentDate">Date: <span id="dateDisplay"></span></div>
+        <div>
+            <label for="contactNumber">Phone:</label>
+            <input type="text" id="contactNumber" placeholder="Enter phone number">
+        </div>
+        <div>
+            <label for="dateInput">Date:</label>
+            <input type="date" id="dateInput">
+        </div>
     </div>
 
     <table id="patientTable">
@@ -70,16 +91,15 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Sample Row -->
             <tr>
                 <td>1</td>
-                <td>001</td>
-                <td>John Doe</td>
-                <td>34</td>
-                <td>Outpatient</td>
-                <td>+9876543210</td>
-                <td>Cash</td>
-                <td class="amount">500</td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true" class="amount">0</td>
             </tr>
         </tbody>
     </table>
@@ -97,9 +117,6 @@
     </div>
 
     <script>
-        // Display current date
-        document.getElementById("dateDisplay").textContent = new Date().toLocaleDateString();
-
         // Calculate total amount
         function calculateTotal() {
             let total = 0;
@@ -134,7 +151,6 @@
                 } else {
                     // Other cells as editable
                     newCell.contentEditable = "true";
-                    newCell.textContent = "";
                 }
             }
         }
@@ -151,8 +167,14 @@
 
         // Share details on WhatsApp
         function shareOnWhatsApp() {
-            const phone = document.getElementById("contactNumber").textContent.split(" ")[1];
-            let message = "Patient List:\n\n";
+            const phone = document.getElementById("contactNumber").value;
+            const date = document.getElementById("dateInput").value;
+            if (!phone || !date) {
+                alert("Please enter both the phone number and the date.");
+                return;
+            }
+            
+            let message = `Patient List for ${date}:\n\n`;
             let totalAmount = 0;
             let patientCount = 0;
 
